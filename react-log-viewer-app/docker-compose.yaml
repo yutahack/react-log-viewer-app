@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+    app:
+        # Build하려는 Dockerfile의 위치
+        build: .
+
+        # 컨테이너 이름 지정
+        container_name: react-log-viewer-container
+
+        # 포트 매핑 (Host:Docker)
+        ports:
+            - 3011:3011
+
+        # 커맨드 완료 시 컨테이너 종료 방지
+        tty: true
+
+        # 표준입출력과 에러 출력을 컨테이너를 향하게
+        stdin_open: true
+
+        # volume을 bind mount
+        volumes:
+            #- ./frontend:/frontend
+            #- ./app:/usr/src/app
+            - ./app:/app
+
+        environment:
+            # React용 hot reload 설정
+            - CHOKIDAR_USEPOLLING=true
