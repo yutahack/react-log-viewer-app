@@ -19,13 +19,13 @@ const LogForm = (props) => {
     // 검색버튼 이벤트를 넘겨받으면 실행
     useEffect(() => {
         // 이중 실행 방지
-        if (props.searchEventGetter) {
+        if (!props.searchEventGetter) {
             return;
         }
 
-        // 화면 삭제
-        setfilteredLogs([]);
-        setDisplayLogData([]);
+        // // 화면 삭제
+        // setfilteredLogs([]);
+        // setDisplayLogData([]);
         setPage(0);
 
         console.log("### LogForm: Clicked and got conditions!", props.filterConditionGetter);
@@ -47,6 +47,7 @@ const LogForm = (props) => {
     // 필터가 완료되면 화면에 뿌려주기
     useEffect(() => {
         console.log("fetch");
+        setDisplayLogData([]);
         fetchMoreData();
     }, [filteredLogs, props.searchEventGetter]);
 
@@ -104,15 +105,13 @@ const LogForm = (props) => {
     //     console.log("### DisplayLogDataChanged: ", displayLogData);
     // }, [displayLogData]);
 
-    // 일부 로그 획득 setter
+    // 스크롤 시 추가 로그 획득하기
     const fetchMoreData = () => {
         setLoaded(false);
         if (filteredLogs) {
             setTimeout(() => {
-                setDisplayLogData([]);
                 var res = filteredLogs.slice(page * numOfSearchData, page * numOfSearchData + numOfSearchData);
                 setDisplayLogData(displayLogData.concat(res));
-                // setDisplayLogData([...displayLogData, res]);
 
                 if (res.length > 0) {
                     setPage((prev) => prev + 1);
