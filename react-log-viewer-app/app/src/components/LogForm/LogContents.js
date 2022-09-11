@@ -133,7 +133,13 @@ const LogContents = (props) => {
                 {/* Message */}
                 {/* <div style={style_000030}>{props.message}</div> */}
                 <div style={style_000030}>
-                    <Highlighter highlightClassName="YourHighlightClass" highlightStyle={{ borderRadius: "2.5px" }} searchWords={props.searchWords} autoEscape={true} textToHighlight={props.message} />
+                    <Highlighter
+                        highlightClassName="YourHighlightClass"
+                        highlightStyle={{ borderRadius: "2.5px" }}
+                        searchWords={props.wordConditions}
+                        autoEscape={true}
+                        textToHighlight={props.message}
+                    />
                 </div>
             </div>
         </div>
