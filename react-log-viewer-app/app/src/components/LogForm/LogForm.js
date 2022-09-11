@@ -32,6 +32,9 @@ const LogForm = (props) => {
 
         var t = filter(props.filterConditionGetter);
         setfilteredLogs(t);
+
+        var w = setWordConditionsforHighlight(props.filterConditionGetter);
+        setWordConditions(w);
     }, [props.searchEventGetter]);
 
     useEffect(() => {
@@ -95,6 +98,25 @@ const LogForm = (props) => {
         }
         console.log("### Loglevel + Message Filtered!", filtered);
         return filtered;
+    };
+
+    // 하이라이트를 위한 wordConditions 생성
+    const setWordConditionsforHighlight = (input) => {
+        var t = [];
+        if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
+        } else {
+            if (input.wordConditions.length > 0) {
+                for (let i = 0; i < input.wordConditions.length; i++) {
+                    if ("" === input.wordConditions[i].value) {
+                        continue;
+                    } else {
+                        t.push(input.wordConditions[i].value);
+                    }
+                }
+            }
+        }
+        console.log("### LogForm: WordConditionForHighlight:", t);
+        return t;
     };
 
     // debug
