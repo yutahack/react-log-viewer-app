@@ -15,6 +15,7 @@ const LogForm = (props) => {
     const [page, setPage] = useState(0);
     const [displayLogData, setDisplayLogData] = useState([]);
     const [numOfSearchData, setNumOfSearchData] = useState(50);
+    const [numOfMatchedData, setNumOfMatchedData] = useState(0);
 
     // 검색버튼 이벤트를 넘겨받으면 실행
     useEffect(() => {
@@ -97,6 +98,7 @@ const LogForm = (props) => {
             }
         }
         console.log("### Loglevel + Message Filtered!", filtered);
+        setNumOfMatchedData(filtered.length);
         return filtered;
     };
 
@@ -160,13 +162,46 @@ const LogForm = (props) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
             width: props.width ? props.width : "100%",
             height: props.height ? props.height : "30px",
             color: "#fff",
             background: "#222",
-            paddingTop: "20px",
         };
-        return <div style={style_010000}>{loaded ? <></> : <BarLoader color="#fff" />}</div>;
+        const style_010001 = {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            width: props.width ? props.width : "100%",
+            height: props.height ? props.height : "50px",
+            color: "#fff",
+            background: "#222",
+        };
+        const style_010002 = {
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: "10px",
+        };
+        // return <div style={style_010000}>{loaded ? <div style={style_010001}>검색결과</div> : <BarLoader color="#fff" />}</div>;
+        return (
+            <>
+                {loaded ? (
+                    <>
+                        <div style={style_010001}>검색결과: {numOfMatchedData} 건</div>
+                    </>
+                ) : (
+                    <>
+                        <div style={style_010000}>
+                            {/* <div style={style_010002}>Loading...</div> */}
+                            <BarLoader color="#fff" />
+                        </div>
+                    </>
+                )}
+            </>
+        );
     };
 
     return (
@@ -182,11 +217,11 @@ const LogForm = (props) => {
                 hasMore={true} // さらにスクロールするかどうか（ある一定数のデータ数に達したらfalseを返すことで無限スクロールを回避）
                 loader={<Loading />} // ローディング中のコンポーネント
                 // height={"100%"} // 高さ（なくても良い）
-                endMessage={
-                    <p style={{ textAlign: "center" }}>
-                        <b>Yay! You have seen it all</b>
-                    </p>
-                }
+                // endMessage={
+                //     <p style={{ textAlign: "center" }}>
+                //         <b>Yay! You have seen it all</b>
+                //     </p>
+                // }
             >
                 <div style={style_000000}>
                     {displayLogData.map((v, i) => {
