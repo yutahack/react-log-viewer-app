@@ -114,7 +114,7 @@ const LogContents = (props) => {
 
     return (
         <div style={style_000040}>
-            <div style={style_000041} />
+            {/* <div style={style_000041} /> */}
             <div
                 style={style_000001}
                 onMouseEnter={(e) => {
