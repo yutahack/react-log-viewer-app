@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CreatableFilter from "./CreatableFilter";
 import Filter from "./Filter";
 
 import { logLevelOptions, testOptions } from "./FilterData";
@@ -63,6 +64,7 @@ const FilterForm = (props) => {
         flexDirection: "row",
         // width: props.width ? props.width : "100%",
         // width: "100%",
+        minWidth: "500px",
         padding: "10px",
     };
 
@@ -99,13 +101,25 @@ const FilterForm = (props) => {
                 <div style={style_000002}>
                     <div style={style_000010}>Log level filter</div>
                     <div style={style_000003}>
-                        <Filter filterName={"LogLevel"} options={logLevelOptions} defaultValue={["ERROR"]} conditionsSetter={setLogLevelConditions} />
+                        <Filter
+                            filterName={"LogLevel"}
+                            options={logLevelOptions}
+                            defaultValue={() => {
+                                // var tmp = [];
+                                // logLevelOptions.forEach((v, i) => {
+                                //     tmp.push(v);
+                                // });
+                                // return tmp;
+                                return [logLevelOptions[0], logLevelOptions[1], logLevelOptions[2], logLevelOptions[3], logLevelOptions[4]];
+                            }}
+                            conditionsSetter={setLogLevelConditions}
+                        />
                     </div>
                 </div>
                 <div style={style_000002}>
                     <div style={style_000010}>Keyword filter</div>
                     <div style={style_000003}>
-                        <Filter filterName={"Words"} options={testOptions} defaultValue={["A"]} conditionsSetter={setWordConditions} />
+                        <CreatableFilter filterName={"Words"} conditionsSetter={setWordConditions} />
                     </div>
                 </div>
                 <div style={style_000002}>

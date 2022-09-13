@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import Select from "react-select";
+import CreatableSelect from "react-select/creatable";
 import makeAnimated from "react-select/animated";
+import { ActionMeta, OnChangeValue } from "react-select";
 
-const Filter = (props) => {
-    const [values, setValues] = useState(props.defaultValue);
+const CreatableFilter = (props) => {
+    const [values, setValues] = useState([]);
     const animatedComponents = makeAnimated();
 
     useEffect(() => {
-        console.log("### Filter: Somthing changed");
+        console.log("### CreatableFilter: Somthing changed");
     }, []);
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const Filter = (props) => {
 
     return (
         <div style={style_000001}>
-            <Select
+            <CreatableSelect
                 closeMenuOnSelect={false}
                 components={animatedComponents}
                 isMulti
@@ -44,10 +45,11 @@ const Filter = (props) => {
                         primary: "#222", // 드롭다운 선택 시 틀 색상
                     },
                 })}
-                placeholder="로그 레벨을 선택...　　"
+                placeholder="검색어를 입력...　　"
                 onChange={(value) => {
-                    // setValues(value)
+                    // setValues(value);
                     props.conditionsSetter(value);
+                    // handleChange();
                     console.log("!!!!!!!!Changed", values);
                 }}
             />
@@ -55,4 +57,4 @@ const Filter = (props) => {
     );
 };
 
-export default Filter;
+export default CreatableFilter;
