@@ -45,14 +45,17 @@ const LogForm = (props) => {
     }, [props.logJsonGetter]);
 
     useEffect(() => {
-        console.log("DLD", displayLogData);
+        console.log("Changed DisplayLogData:", displayLogData);
     }, [displayLogData]);
 
     // 필터가 완료되면 화면에 뿌려주기
     useEffect(() => {
-        console.log("fetch");
         setDisplayLogData([]);
-        fetchMoreData();
+        // click t->f 변화에 따른 fetch 이중실행 방지
+        if (!props.searchEventGetter) {
+            setDisplayLogData([]);
+            fetchMoreData();
+        }
     }, [filteredLogs, props.searchEventGetter]);
 
     // 필터링 로직
@@ -62,40 +65,44 @@ const LogForm = (props) => {
         console.log("### Log Form: check input:", input);
         // var filtered = "";
         var filtered = logJson;
-
-        if (0 === input.logLevelConditions.length && undefined === input.logLevelConditions[0]) {
-        } else {
-            var t = [];
-            for (let i = 0; i < filtered.length; i++) {
-                for (let j = 0; j < input.logLevelConditions.length; j++) {
-                    if (filtered[i].logLevel === input.logLevelConditions[j].value) {
-                        t.push(filtered[i]);
-                        break;
+        try {
+            if (0 === input.logLevelConditions.length && undefined === input.logLevelConditions[0]) {
+            } else {
+                var t = [];
+                for (let i = 0; i < filtered.length; i++) {
+                    for (let j = 0; j < input.logLevelConditions.length; j++) {
+                        if (filtered[i].logLevel === input.logLevelConditions[j].value) {
+                            t.push(filtered[i]);
+                            break;
+                        }
                     }
                 }
+                filtered = t;
             }
-            filtered = t;
-        }
 
-        console.log("Loglevel filtered: ", filtered);
-        console.log("Input wordConditions logs: ", input.wordConditions.length);
+            console.log("Loglevel filtered: ", filtered);
+            console.log("Input wordConditions logs: ", input.wordConditions.length);
 
-        if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
-        } else {
-            if (input.wordConditions.length > 0) {
-                filtered = filtered.filter((e) => {
-                    var t2 = [];
-                    for (let i = 0; i < input.wordConditions.length; i++) {
-                        if ("" === input.wordConditions[i].value) {
-                            continue;
-                        }
-                        t2 = e.message.toUpperCase().includes(input.wordConditions[i].value.toUpperCase());
-                    }
-                    return t2;
-                });
+            if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
             } else {
-                filtered = filtered;
+                if (input.wordConditions.length > 0) {
+                    filtered = filtered.filter((e) => {
+                        var t2 = [];
+                        for (let i = 0; i < input.wordConditions.length; i++) {
+                            if ("" === input.wordConditions[i].value) {
+                                continue;
+                            }
+                            t2 = e.message.toUpperCase().includes(input.wordConditions[i].value.toUpperCase());
+                        }
+                        return t2;
+                    });
+                } else {
+                    filtered = filtered;
+                }
             }
+        } catch (e) {
+            console.log("### LogForm: Filtering error!", e);
+            filtered = [];
         }
         console.log("### Loglevel + Message Filtered!", filtered);
         setNumOfMatchedData(filtered.length);
@@ -105,18 +112,23 @@ const LogForm = (props) => {
     // 하이라이트를 위한 wordConditions 생성
     const setWordConditionsforHighlight = (input) => {
         var t = [];
-        if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
-        } else {
-            if (input.wordConditions.length > 0) {
-                for (let i = 0; i < input.wordConditions.length; i++) {
-                    if ("" === input.wordConditions[i].value) {
-                        continue;
-                    } else {
-                        t.push(input.wordConditions[i].value);
+        try {
+            if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
+            } else {
+                if (input.wordConditions.length > 0) {
+                    for (let i = 0; i < input.wordConditions.length; i++) {
+                        if ("" === input.wordConditions[i].value) {
+                            continue;
+                        } else {
+                            t.push(input.wordConditions[i].value);
+                        }
                     }
                 }
             }
+        } catch (e) {
+            console.log("### LogForm: WordConditons: Nothing Data!");
         }
+
         console.log("### LogForm: WordConditionForHighlight:", t);
         return t;
     };
