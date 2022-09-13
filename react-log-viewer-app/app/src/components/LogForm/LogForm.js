@@ -154,7 +154,7 @@ const LogForm = (props) => {
         width: props.width ? props.width : "100%",
         // height: props.height ? props.height : "100%",
         background: "#222",
-        overflow: "scroll",
+        // overflowY: "scroll",
     };
 
     const Loading = () => {
