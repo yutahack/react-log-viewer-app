@@ -27,7 +27,7 @@ const LogContents = (props) => {
                 setBg({ seqBg: "#444", msgBg: "#333" });
                 break;
         }
-    }, [logLevel]);
+    }, [props.logLevel]);
 
     const style_000001 = {
         display: "flex",
