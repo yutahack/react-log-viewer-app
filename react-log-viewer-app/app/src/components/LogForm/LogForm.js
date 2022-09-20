@@ -83,6 +83,7 @@ const LogForm = (props) => {
             console.log("Loglevel filtered: ", filtered);
             console.log("Input wordConditions logs: ", input.wordConditions.length);
 
+            // [220920] 단어검색을 OR 형태로 변경
             if (0 === input.wordConditions.length && undefined === input.wordConditions[0]) {
             } else {
                 if (input.wordConditions.length > 0) {
@@ -92,7 +93,13 @@ const LogForm = (props) => {
                             if ("" === input.wordConditions[i].value) {
                                 continue;
                             }
-                            t2 = e.message.toUpperCase().includes(input.wordConditions[i].value.toUpperCase());
+                            // t2 = e.message.toUpperCase().includes(input.wordConditions[i].value.toUpperCase());
+                            if (e.message.toUpperCase().includes(input.wordConditions[i].value.toUpperCase())) {
+                                t2 = true;
+                                break;
+                            } else {
+                                t2 = false;
+                            }
                         }
                         return t2;
                     });
