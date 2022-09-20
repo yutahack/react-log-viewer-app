@@ -1,0 +1,61 @@
+{
+    "took": 8,
+    "timed_out": false,
+    "_shards": {
+        "total": 1,
+        "successful": 1,
+        "skipped": 0,
+        "failed": 0
+    },
+    "hits": {
+        "total": {
+            "value": 2,
+            "relation": "eq"
+        },
+        "max_score": 1.0,
+        "hits": [
+            {
+                "_index": "logcollector",
+                "_type": "_doc",
+                "_id": "iEckVYMByVrgbyy0Vv3h",
+                "_score": 1.0,
+                "_source": {
+                    "LogDatetime": "2022-09-08T14:52:55.1623",
+                    "Ip": "10.214.141.38",
+                    "ServiceType": "StoreManager",
+                    "ServiceSubType": "",
+                    "Level": "Info",
+                    "CustomerTrackingNo": "01",
+                    "Message": {
+                        "CustomerCnt": "1",
+                        "CustomerTrackingNo": "01",
+                        "CustomerBarcodeNo": "ABCDEFGHI",
+                        "GroupYn": "Y"
+                    },
+                    "Note": "1111111111111python 확인용 로그입니다."
+                }
+            },
+            {
+                "_index": "logcollector",
+                "_type": "_doc",
+                "_id": "jEckVYMByVrgbyy0_v2r",
+                "_score": 1.0,
+                "_source": {
+                    "LogDatetime": "2022-09-08T16:52:55.1623",
+                    "Ip": "10.214.141.38",
+                    "ServiceType": "StoreManager",
+                    "ServiceSubType": "",
+                    "Level": "Info",
+                    "CustomerTrackingNo": "01",
+                    "Message": {
+                        "CustomerCnt": "1",
+                        "CustomerTrackingNo": "01",
+                        "CustomerBarcodeNo": "ABCDEFGHI",
+                        "GroupYn": "Y"
+                    },
+                    "Note": "1111111111111python 확인용 로그입니다."
+                }
+            }
+        ]
+    }
+}

@@ -8,7 +8,8 @@ const MainFrame = (props) => {
     const [clickedSearch, setClickedSearch] = useState(false);
 
     useEffect(() => {
-        setlogJson(props.logJson);
+        var t = logFormatConverter(props.logJson.hits.hits);
+        setlogJson(t);
     }, [props.logJson]);
 
     useEffect(() => {
@@ -23,6 +24,21 @@ const MainFrame = (props) => {
         setClickedSearch(false);
         console.log("### Main Frame: ClickedSearchButton");
     }, [clickedSearch]);
+
+    // 로그 형식 변환
+    const logFormatConverter = (logJson) => {
+        var tmp = [];
+        for (let i = 0; i < logJson.length; i++) {
+            var t = {
+                logDatetime: logJson[i]._source.LogDatetime.replace("T", "\n"),
+                logLevel: logJson[i]._source.Level.toUpperCase(),
+                message:
+                    logJson[i]._source.Level.toUpperCase() + " " + logJson[i]._source.ServiceType + " " + logJson[i]._source.Note + "\n" + "Message: " + JSON.stringify(logJson[i]._source.Message),
+            };
+            tmp.push(t);
+        }
+        return tmp;
+    };
 
     // Main Frame
     const style_000001 = {

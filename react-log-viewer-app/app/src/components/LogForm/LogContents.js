@@ -47,13 +47,18 @@ const LogContents = (props) => {
         display: "flex",
         flexDirection: "row",
         width: props.width ? props.width : "100%",
-        maxWidth: "75px",
+        maxWidth: "150px",
         height: props.height ? props.height : "100%",
         alignItems: "center",
         // opacity: "0.5",
         background: isHover ? hoveredSeqBg : bg.seqBg,
-        justifyContent: "end",
-        paddingRight: "10px",
+        // justifyContent: "end",
+        // paddingTop: "5px",
+        // paddingBottom: "5px",
+        // paddingLeft: "5px",
+        // paddingRight: "5px",
+        padding: "5px",
+        whiteSpace: "pre-line",
     };
     // Between Line-LogLevel space
     const style_000011 = {
@@ -90,10 +95,15 @@ const LogContents = (props) => {
         display: "flex",
         flexDirection: "row",
         width: props.width ? props.width : "100%",
-        // height: props.height ? props.height : "100%",
+        height: props.height ? props.height : "100%",
         alignItems: "center",
         background: isHover ? hoveredMsgBg : bg.msgBg,
         justifyContent: "start",
+        paddingTop: "5px",
+        paddingBottom: "5px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
+        whiteSpace: "pre-line",
     };
 
     // Content Top Space
@@ -125,11 +135,14 @@ const LogContents = (props) => {
                     setIsHover(false);
                 }}
             >
+                {/* [220920] Log 유형 변경 */}
+
                 {/* Line Nubmer */}
-                <div style={style_000010}>{props.seq}</div>
+                {/* <div style={style_000010}>{props.seq}</div> */}
+                <div style={style_000010}>{props.logDatetime}</div>
                 {/* <div style={style_000011}></div> */}
                 {/* Log Level */}
-                <div style={style_000020}>{props.logLevel}</div>
+                {/* <div style={style_000020}>{props.logLevel}</div> */}
                 {/* <div style={style_000021} /> */}
                 {/* Message */}
                 {/* <div style={style_000030}>{props.message}</div> */}
