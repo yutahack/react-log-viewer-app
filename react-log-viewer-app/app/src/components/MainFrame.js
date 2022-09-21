@@ -34,6 +34,7 @@ const MainFrame = (props) => {
                 logLevel: logJson[i]._source.Level.toUpperCase(),
                 message:
                     logJson[i]._source.Level.toUpperCase() + " " + logJson[i]._source.ServiceType + " " + logJson[i]._source.Note + "\n" + "Message: " + JSON.stringify(logJson[i]._source.Message),
+                rawData: logJson[i]._source,
             };
             tmp.push(t);
         }

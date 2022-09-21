@@ -244,7 +244,7 @@ const LogForm = (props) => {
             >
                 <div style={style_000000}>
                     {displayLogData.map((v, i) => {
-                        return <LogContents key={i} seq={i + 1} logDatetime={v.logDatetime} logLevel={v.logLevel} message={v.message} wordConditions={wordConditions} />;
+                        return <LogContents key={i} seq={i + 1} logDatetime={v.logDatetime} logLevel={v.logLevel} message={v.message} rawData={v.rawData} wordConditions={wordConditions} />;
                     })}
                 </div>
             </InfiniteScroll>

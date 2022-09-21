@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
+import { Collapse, Button, CardBody, Card, ButtonGroup } from "reactstrap";
 
 /*
     logLevel: 
@@ -8,23 +9,31 @@ import Highlighter from "react-highlight-words";
 const LogContents = (props) => {
     const [isHover, setIsHover] = useState(false);
     const [logLevel, setLogLevel] = useState("");
-    const [bg, setBg] = useState({ seqBg: "#transparent", msgBg: "#transparent" });
+    const [bg, setBg] = useState({ seqBg: "transparent", msgBg: "transparent", seqDarkBg: "transparent", msgDarkBg: "transparent" });
+
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => setIsOpen(!isOpen);
+
+    const [rSelected, setRSelected] = useState(1);
 
     const hoveredSeqBg = "#333";
     const hoveredMsgBg = "#333";
 
+    const maxDateTimeWidth = "150px";
+
     useEffect(() => {
         switch (props.logLevel) {
             case "ERROR":
-                setBg({ seqBg: "#CA0000", msgBg: "#8C0000" });
+                setBg({ seqBg: "#CA0000", msgBg: "#8C0000", seqDarkBg: "#930000", msgDarkBg: "#560000" });
                 break;
 
             case "INFO":
-                setBg({ seqBg: "#007A86", msgBg: "#005C65" });
+                setBg({ seqBg: "#007A86", msgBg: "#005C65", seqDarkBg: "#004A51", msgDarkBg: "#002A2D" });
                 break;
 
             default:
-                setBg({ seqBg: "#444", msgBg: "#333" });
+                setBg({ seqBg: "#007A86", msgBg: "#005C65", seqDarkBg: "#004A51", msgDarkBg: "#002A2D" });
+                // setBg({ seqBg: "#444", msgBg: "#333" });
                 break;
         }
     }, [props.logLevel]);
@@ -47,7 +56,7 @@ const LogContents = (props) => {
         display: "flex",
         flexDirection: "row",
         width: props.width ? props.width : "100%",
-        maxWidth: "150px",
+        maxWidth: maxDateTimeWidth,
         height: props.height ? props.height : "100%",
         alignItems: "center",
         // opacity: "0.5",
@@ -57,7 +66,7 @@ const LogContents = (props) => {
         // paddingBottom: "5px",
         // paddingLeft: "5px",
         // paddingRight: "5px",
-        padding: "5px",
+        padding: "10px",
         whiteSpace: "pre-line",
     };
     // Between Line-LogLevel space
@@ -99,10 +108,11 @@ const LogContents = (props) => {
         alignItems: "center",
         background: isHover ? hoveredMsgBg : bg.msgBg,
         justifyContent: "start",
-        paddingTop: "5px",
-        paddingBottom: "5px",
-        paddingLeft: "5px",
-        paddingRight: "5px",
+        // paddingTop: "5px",
+        // paddingBottom: "5px",
+        // paddingLeft: "5px",
+        // paddingRight: "5px",
+        padding: "10px",
         whiteSpace: "pre-line",
     };
 
@@ -123,7 +133,47 @@ const LogContents = (props) => {
         background: "#111",
     };
 
+    // Collapse content
+    // Bg
+    const style_000050 = {
+        display: "flex",
+        flexDirection: "row",
+        width: props.width ? props.width : "100%",
+        boxShadow: "inset 3px 3px 4px black",
+    };
+
+    // Message
+    const style_000052 = {
+        display: "flex",
+        flexDirection: "column",
+        width: props.width ? props.width : "100%",
+        background: bg.msgDarkBg,
+        color: "white",
+        padding: "10px",
+        fontFamily: "D2 Coding",
+        fontSize: " 14px",
+        wordBreak: "break-word",
+        boxShadow: "inset 0px 2px 5px #000",
+    };
+
+    // Collapse
+    const style_000053 = {
+        width: "100%",
+    };
+
+    // Tab
+    const style_000054 = {
+        width: "100%",
+        padding: "10px",
+    };
+
+    const style_000055 = {
+        marginTop: "10px",
+        width: "100%",
+    };
+
     return (
+        // <Button style={{ display: "flex", padding: "0" }}>
         <div style={style_000040}>
             {/* <div style={style_000041} /> */}
             <div
@@ -133,6 +183,9 @@ const LogContents = (props) => {
                 }}
                 onMouseLeave={(e) => {
                     setIsHover(false);
+                }}
+                onClick={(e) => {
+                    toggle();
                 }}
             >
                 {/* [220920] Log 유형 변경 */}
@@ -156,7 +209,51 @@ const LogContents = (props) => {
                     />
                 </div>
             </div>
+
+            <Collapse style={style_000053} isOpen={isOpen} onClick={(e) => {}}>
+                <div style={style_000052}>
+                    <div style={style_000054}>
+                        <ButtonGroup>
+                            <Button color="primary" outline onClick={() => setRSelected(1)} active={rSelected === 1}>
+                                JSON
+                            </Button>
+                            <Button color="primary" outline onClick={() => setRSelected(2)} active={rSelected === 2}>
+                                Other
+                            </Button>
+                        </ButtonGroup>
+                        {1 === rSelected && (
+                            <div style={style_000055}>
+                                {Object.keys(props.rawData).map((v, i) => {
+                                    var keyy = Object.keys(props.rawData)[i];
+                                    var val = props.rawData[v];
+                                    return (
+                                        <div key={i} style={{ display: "flex", flexDirection: "row", width: "100%", padding: "5px" }}>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    alignItems: "center",
+                                                    minWidth: "150px",
+                                                    background: "#666",
+                                                    borderRadius: "5px",
+                                                    paddingLeft: "10px",
+                                                    paddingRight: "10px",
+                                                    marginRight: "10px",
+                                                }}
+                                            >
+                                                {keyy}
+                                            </div>
+                                            <div style={{ display: "flex" }}>{JSON.stringify(val)}</div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        )}
+                        {2 === rSelected && <div style={style_000055}></div>}
+                    </div>
+                </div>
+            </Collapse>
         </div>
+        // </Button>
     );
 };
 
